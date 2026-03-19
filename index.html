@@ -588,13 +588,35 @@
     window.scrollTo({ top: top, behavior: 'smooth' });
   }
 
-  function handleFormSubmit(e) {
+  async function handleFormSubmit(e) {
     e.preventDefault();
-    var form = document.getElementById('contactForm');
-    var success = document.getElementById('formSuccess');
-    form.reset();
-    success.style.display = 'block';
-    setTimeout(function() { success.style.display = 'none'; }, 4000);
+    var btn = e.target.querySelector('.form-submit');
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+    try {
+      var res = await fetch('/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: document.getElementById('cf-name').value,
+          email: document.getElementById('cf-email').value,
+          subject: document.getElementById('cf-subject').value,
+          message: document.getElementById('cf-message').value
+        })
+      });
+      if (res.ok) {
+        document.getElementById('contactForm').reset();
+        document.getElementById('formSuccess').style.display = 'block';
+        setTimeout(function() { document.getElementById('formSuccess').style.display = 'none'; }, 4000);
+      } else {
+        alert('Something went wrong. Please try again.');
+      }
+    } catch(err) {
+      alert('Could not connect to server.');
+    } finally {
+      btn.textContent = 'Send Message →';
+      btn.disabled = false;
+    }
   }
 </script>
 </body>
