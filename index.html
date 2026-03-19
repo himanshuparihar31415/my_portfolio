@@ -198,6 +198,28 @@
   .resume-line:last-child { border-bottom: none; }
   .resume-line span { color: var(--text); }
 
+  /* CONTACT FORM */
+  .contact-form-wrap { border: 1px solid var(--line); padding: 2.5rem; background: var(--bg); }
+  .contact-form-title { font-family: var(--sans); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 2rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--line); }
+  .form-row { margin-bottom: 1.2rem; }
+  .form-row label { display: block; font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.4rem; }
+  .form-row input, .form-row textarea {
+    width: 100%; font-family: var(--mono); font-size: 0.78rem; color: var(--text);
+    background: var(--bg2); border: 1px solid var(--line); padding: 0.75rem 1rem;
+    outline: none; transition: border-color 0.2s; resize: vertical;
+  }
+  .form-row input:focus, .form-row textarea:focus { border-color: var(--accent); }
+  .form-row textarea { min-height: 110px; }
+  .form-submit {
+    font-family: var(--sans); font-size: 0.75rem; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: #f4f1eb; background: var(--accent);
+    padding: 0.85rem 2rem; border: none; cursor: pointer; width: 100%;
+    transition: background 0.2s;
+  }
+  .form-submit:hover { background: #3a8a3a; }
+  .form-success { display: none; font-family: var(--mono); font-size: 0.75rem; color: var(--accent); text-align: center; padding: 1rem 0; }
+
   /* FOOTER */
   footer { padding: 1.5rem 3rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.65rem; color: var(--muted); letter-spacing: 0.08em; }
 
@@ -526,6 +548,29 @@
       <div class="resume-line">Domains <span>ML, SQL, Python, Azure</span></div>
       <div class="resume-line">Writing <span>Medium — AI &amp; Statistical Topics</span></div>
     </div>
+    <div class="contact-form-wrap">
+      <div class="contact-form-title">Send a Message</div>
+      <form id="contactForm" onsubmit="handleFormSubmit(event)">
+        <div class="form-row">
+          <label for="cf-name">Name</label>
+          <input type="text" id="cf-name" name="name" placeholder="Your name" required />
+        </div>
+        <div class="form-row">
+          <label for="cf-email">Email</label>
+          <input type="email" id="cf-email" name="email" placeholder="your@email.com" required />
+        </div>
+        <div class="form-row">
+          <label for="cf-subject">Subject</label>
+          <input type="text" id="cf-subject" name="subject" placeholder="What's this about?" />
+        </div>
+        <div class="form-row">
+          <label for="cf-message">Message</label>
+          <textarea id="cf-message" name="message" placeholder="Your message..." required></textarea>
+        </div>
+        <button type="submit" class="form-submit">Send Message →</button>
+        <div class="form-success" id="formSuccess">Message sent! I'll get back to you soon.</div>
+      </form>
+    </div>
   </div>
 </section>
 
@@ -541,6 +586,15 @@
     var navH = document.querySelector('nav').offsetHeight;
     var top = el.getBoundingClientRect().top + window.pageYOffset - navH;
     window.scrollTo({ top: top, behavior: 'smooth' });
+  }
+
+  function handleFormSubmit(e) {
+    e.preventDefault();
+    var form = document.getElementById('contactForm');
+    var success = document.getElementById('formSuccess');
+    form.reset();
+    success.style.display = 'block';
+    setTimeout(function() { success.style.display = 'none'; }, 4000);
   }
 </script>
 </body>
